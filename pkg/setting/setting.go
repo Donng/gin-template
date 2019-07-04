@@ -1,17 +1,24 @@
 package setting
 
 import (
-	"fmt"
 	"github.com/go-ini/ini"
 	"log"
+	"time"
 )
 
-type AppConf struct {
+type CommonConf struct {
 	RunMode string
 }
 
+type AppConf struct {
+	PageSize  int
+	JwtSecret int
+}
+
 type ServerConf struct {
-	HttpPort int
+	HttpPort     int
+	ReadTimeout  time.Duration
+	WriteTimeout time.Duration
 }
 
 type DatabaseConf struct {
@@ -23,6 +30,8 @@ type DatabaseConf struct {
 	Database    string
 	TablePrefix string
 }
+
+var Common = &CommonConf{}
 
 var App = &AppConf{}
 var Server = &ServerConf{}
@@ -38,10 +47,10 @@ func init() {
 		log.Printf("Failed to load file app.ini: %s", e)
 	}
 
-	mapTo("", App)
+	mapTo("", Common)
+	mapTo("app", App)
 	mapTo("server", Server)
 	mapTo("database", Database)
-	fmt.Println(Server, Database)
 }
 
 // 将配置信息映射到对应的变量
