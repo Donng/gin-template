@@ -13,12 +13,13 @@ var db = make(map[string]string)
 func main() {
 	router := routers.InitRouter()
 
-	// 配置
+	server := setting.Server
+
 	s := http.Server{
-		Addr:           fmt.Sprintf(":%d", setting.Server.HttpPort),
+		Addr:           fmt.Sprintf(":%d", server.HttpPort),
 		Handler:        router,
-		ReadTimeout:    setting.Server.ReadTimeout * time.Second,
-		WriteTimeout:   setting.Server.WriteTimeout * time.Second,
+		ReadTimeout:    server.ReadTimeout * time.Second,
+		WriteTimeout:   server.WriteTimeout * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 

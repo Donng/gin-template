@@ -10,7 +10,7 @@ func InitRouter() *gin.Engine {
 	// 获得Gin的实例Engine
 	r := gin.Default()
 
-	v1 := r.Group("/v1")
+	v1 := r.Group("/api/v1")
 	{
 		v1.GET("/tags", tag.Get)
 		v1.POST("/tags", tag.Create)

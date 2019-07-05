@@ -1,30 +1,32 @@
 package models
 
 import (
+	"fmt"
 	"gin-template/pkg/setting"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"time"
-
 	"log"
 )
 
 type Model struct {
-	ID         uint `gorm:"primary_key"`
-	CreatedOn  time.Time
-	ModifiedOn time.Time
-	DeletedOn  *time.Time
+	ID         uint `gorm:"primary_key" json:"id"`
+	CreatedOn  int  `json:"created_on"`
+	ModifiedOn int  `json:"modified_on"`
+	DeletedOn  int  `json:"deleted_on"`
 }
 
 var db *gorm.DB
 
 func init() {
-	//dbConfig := setting.Database
-	//connection := fmt.Sprintf("%s:%s@/%s", dbConfig.Username, dbConfig.Password, dbConfig.Database)
-	//db, err := gorm.Open(dbConfig.Type, connection)
-
 	var err error
-	db, err = gorm.Open("mysql", "root:root@(127.0.0.1:3306)/blog?charset=utf8&parseTime=True&loc=Local")
+	database := setting.Database
+	args := fmt.Sprintf("%s:%s@(%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		database.Username,
+		database.Password,
+		database.Host,
+		database.Database)
+
+	db, err = gorm.Open(database.Type, args)
 	if err != nil {
 		log.Printf("Failed to connect database: %s", err)
 	}
