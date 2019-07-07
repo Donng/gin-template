@@ -1,4 +1,4 @@
-package err
+package e
 
 var message = map[int]string{
 	SUCCESS:        "请求成功",

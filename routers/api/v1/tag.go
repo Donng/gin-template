@@ -1,9 +1,8 @@
 package tag
 
 import (
-	"gin-blog/pkg/e"
 	"gin-template/models"
-	"gin-template/pkg/err"
+	"gin-template/pkg/e"
 	"gin-template/pkg/setting"
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
@@ -33,7 +32,7 @@ func Get(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg":  err.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": data,
 	})
 }
@@ -57,7 +56,7 @@ func Create(c *gin.Context) {
 	} else {
 		// 判断标签是否已存在
 		if models.ExistTagByName(name) {
-			code = err.ERROR_EXIST_TAG
+			code = e.ERROR_EXIST_TAG
 		} else {
 			models.CreateTag(name, createdBy)
 		}
@@ -65,7 +64,7 @@ func Create(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg":  err.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": "",
 	})
 }
@@ -98,7 +97,7 @@ func Update(c *gin.Context) {
 		// 检查是否有重名的 name
 		// 更新
 		if !models.ExistTagById(id) {
-			code = err.ERROR_NOT_EXIST_TAG
+			code = e.ERROR_NOT_EXIST_TAG
 		} else {
 			if name != "" {
 				maps["name"] = name
@@ -112,7 +111,7 @@ func Update(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,
-		"msg": err.GetMsg(code),
+		"msg":  e.GetMsg(code),
 		"data": "",
 	})
 }
