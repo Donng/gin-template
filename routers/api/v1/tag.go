@@ -11,8 +11,14 @@ import (
 	"net/http"
 )
 
-// 查询标签，分页查询，条件为某人的标签或者状态为 1，0 的标签
+// @Summary 查询标签列表
+// @Produce  json
+// @Param name query string false "标签名称"
+// @Param state query int false "标签状态 1-启用，0-禁用"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags [get]
 func GetTags(c *gin.Context) {
+	// 查询标签，分页查询，条件为某人的标签或者状态为 1，0 的标签
 	maps := make(map[string]interface{})
 	data := make(map[string]interface{})
 
@@ -37,6 +43,12 @@ func GetTags(c *gin.Context) {
 	})
 }
 
+// @Summary 新增文章标签
+// @Produce  json
+// @Param name query string true "标签名称"
+// @Param created_by query int true "创建人"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags [post]
 func CreateTag(c *gin.Context) {
 	name := c.PostForm("name")
 	createdBy := c.PostForm("created_by")
@@ -69,6 +81,13 @@ func CreateTag(c *gin.Context) {
 	})
 }
 
+// @Summary 更新标签
+// @Produce  json
+// @Param id path int true "标签ID"
+// @Param name query string false "标签名称"
+// @Param modified_by query string false "修改人"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags [PUT]
 func UpdateTag(c *gin.Context) {
 	maps := make(map[string]interface{})
 	valid := validation.Validation{}
@@ -116,6 +135,11 @@ func UpdateTag(c *gin.Context) {
 	})
 }
 
+// @Summary 删除标签
+// @Produce  json
+// @Param id path int true "标签ID"
+// @Success 200 {string} json "{"code":200,"data":{},"msg":"ok"}"
+// @Router /api/v1/tags [DELETE]
 func DeleteTag(c *gin.Context) {
 	id := com.StrTo(c.Param("id")).MustInt()
 

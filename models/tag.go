@@ -47,7 +47,6 @@ func CreateTag(name string, createdBy string) bool {
 	return true
 }
 
-//todo 无法抓取 mysql 错误
 func UpdateTag(id int, maps map[string]interface{}) bool {
 	db.Model(&Tag{}).Where("id = ?", id).Update(maps)
 
