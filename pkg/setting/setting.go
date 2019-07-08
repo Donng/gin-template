@@ -7,12 +7,13 @@ import (
 )
 
 type CommonConf struct {
-	RunMode string
+	RunMode     string
+	ProjectName string
 }
 
 type AppConf struct {
 	PageSize  int
-	JwtSecret int
+	JwtSecret string
 }
 
 type ServerConf struct {
