@@ -1,10 +1,5 @@
 package models
 
-import (
-	"github.com/jinzhu/gorm"
-	"time"
-)
-
 type Tag struct {
 	Model
 
@@ -59,12 +54,8 @@ func UpdateTag(id int, maps map[string]interface{}) bool {
 	return true
 }
 
-func (tag *Tag) BeforeCreate(scope *gorm.Scope) error {
-	scope.SetColumn("created_on", time.Now().Unix())
-	return nil
-}
+func DeleteTag(id int) bool {
+	db.Where("id = ?", id).Delete(Tag{})
 
-func (tag *Tag) BeforeUpdate(scope *gorm.Scope) error {
-	scope.SetColumn("modified_on", time.Now().Unix())
-	return nil
+	return true
 }

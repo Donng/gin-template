@@ -4,18 +4,19 @@ import (
 	"fmt"
 	"gin-template/pkg/setting"
 	"gin-template/routers"
+	"log"
 	"net/http"
+	"os"
+	"os/signal"
 	"time"
 )
-
-var db = make(map[string]string)
 
 func main() {
 	router := routers.InitRouter()
 
 	server := setting.Server
 
-	s := http.Server{
+	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", server.HttpPort),
 		Handler:        router,
 		ReadTimeout:    server.ReadTimeout * time.Second,
@@ -23,5 +24,16 @@ func main() {
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	s.ListenAndServe()
+	go func() {
+		if err := s.ListenAndServe(); err != nil {
+			log.Printf("Listen: %s\n", err)
+		}
+	}()
+
+	signalChan:= make(chan os.Signal)
+	signal.Notify(signalChan, os.Interrupt)
+	// 主进程挂起，等待接受中断信号
+	<-signalChan
+
+	log.Println("Shutdown Server ...")
 }

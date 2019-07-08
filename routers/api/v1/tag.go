@@ -1,4 +1,4 @@
-package tag
+package v1
 
 import (
 	"gin-template/models"
@@ -12,7 +12,7 @@ import (
 )
 
 // 查询标签，分页查询，条件为某人的标签或者状态为 1，0 的标签
-func Get(c *gin.Context) {
+func GetTags(c *gin.Context) {
 	maps := make(map[string]interface{})
 	data := make(map[string]interface{})
 
@@ -37,7 +37,7 @@ func Get(c *gin.Context) {
 	})
 }
 
-func Create(c *gin.Context) {
+func CreateTag(c *gin.Context) {
 	name := c.PostForm("name")
 	createdBy := c.PostForm("created_by")
 
@@ -69,7 +69,7 @@ func Create(c *gin.Context) {
 	})
 }
 
-func Update(c *gin.Context) {
+func UpdateTag(c *gin.Context) {
 	maps := make(map[string]interface{})
 	valid := validation.Validation{}
 
@@ -116,6 +116,29 @@ func Update(c *gin.Context) {
 	})
 }
 
-func Delete(c *gin.Context) {
+func DeleteTag(c *gin.Context) {
+	id := com.StrTo(c.Param("id")).MustInt()
 
+	valid := validation.Validation{}
+	valid.Required(id, "id").Message("用户ID不能为空")
+
+	code := e.SUCCESS
+	if valid.HasErrors() {
+		code = e.INVALID_PARAMS
+		for _, err := range valid.Errors {
+			log.Printf("Error Params key: %s, message %s", err.Key, err.Message)
+		}
+	} else {
+		if models.ExistTagById(id) {
+			models.DeleteTag(id)
+		} else {
+			code = e.ERROR_NOT_EXIST_TAG
+		}
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"code": code,
+		"msg": e.GetMsg(code),
+		"data": "",
+	})
 }

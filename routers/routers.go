@@ -3,26 +3,24 @@ package routers
 import (
 	"gin-template/routers/api/v1"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func InitRouter() *gin.Engine {
 	// 获得Gin的实例Engine
 	r := gin.Default()
 
-	v1 := r.Group("/api/v1")
+	apiv1 := r.Group("/api/v1")
 	{
-		v1.GET("/tags", tag.Get)
-		v1.POST("/tags", tag.Create)
-		v1.PUT("/tags/:id", tag.Update)
-		v1.DELETE("/tags/:id", tag.Delete)
-	}
+		apiv1.GET("/tags", v1.GetTags)
+		apiv1.POST("/tags",v1.CreateTag)
+		apiv1.PUT("/tags/:id", v1.UpdateTag)
+		apiv1.DELETE("/tags/:id", v1.DeleteTag)
 
-	// Context是Gin最重要的部分
-	r.GET("/ping", func(c *gin.Context) {
-		// String将字符串写入响应体
-		c.String(http.StatusOK, "ping %s", "pong")
-	})
+		apiv1.GET("/articles", v1.GetArticles)
+		apiv1.POST("/articles", v1.CreateArticle)
+		apiv1.PUT("/articles", v1.UpdateArticle)
+		apiv1.DELETE("/articles", v1.DeleteArticle)
+	}
 
 	return r
 }
