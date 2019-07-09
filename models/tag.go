@@ -58,3 +58,10 @@ func DeleteTag(id int) bool {
 
 	return true
 }
+
+func CleanAllTag() bool {
+	// unscoped 代表不使用默认的软删除
+	db.Unscoped().Where("deleted_on != ?", 0).Delete(&Tag{})
+
+	return true
+}
