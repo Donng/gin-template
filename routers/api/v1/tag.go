@@ -3,13 +3,21 @@ package v1
 import (
 	"gin-template/models"
 	"gin-template/pkg/e"
+	logger2 "gin-template/pkg/logger"
 	"gin-template/pkg/setting"
 	"github.com/Unknwon/com"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
+	"go.uber.org/zap"
 	"log"
 	"net/http"
 )
+
+var logger *zap.Logger
+
+func init()  {
+	logger = logger2.Logger
+}
 
 // @Summary 查询标签列表
 // @Produce  json
@@ -35,6 +43,8 @@ func GetTags(c *gin.Context) {
 	code := e.SUCCESS
 	data["list"] = models.GetTags(maps, offset, size)
 	data["total"] = models.GetTagsTotal(maps)
+
+	logger.Info("接口调用成功")
 
 	c.JSON(http.StatusOK, gin.H{
 		"code": code,

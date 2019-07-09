@@ -1,0 +1,4 @@
+{"level":"info","time":"2019-07-09T11:33:51.100+0800","caller":"/Users/Donne/Documents/go/src/gin-template/pkg/logger/logger.go:44","msg":"log 初始化成功","serviceName":"spikeProxy"}
+{"level":"info","time":"2019-07-09T11:33:57.372+0800","caller":"/Users/Donne/Documents/go/src/gin-template/routers/api/v1/tag.go:41","msg":"接口调用成功","serviceName":"spikeProxy"}
+{"level":"info","time":"2019-07-09T11:35:08.328+0800","caller":"/Users/Donne/Documents/go/src/gin-template/pkg/logger/logger.go:44","msg":"log 初始化成功","serviceName":"spikeProxy"}
+{"level":"info","time":"2019-07-09T11:35:12.365+0800","caller":"/Users/Donne/Documents/go/src/gin-template/routers/api/v1/tag.go:47","msg":"接口调用成功","serviceName":"spikeProxy"}
